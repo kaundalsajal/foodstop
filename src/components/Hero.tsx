@@ -66,7 +66,7 @@ function Hero() {
             opacity: 0,
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
-            duration: 0.7,
+            duration: 0.7
           });
         } else {
           gsap.to(node, {
@@ -74,7 +74,7 @@ function Hero() {
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
             duration: 0.7,
-            ease: "power3.inOut",
+            ease: "power3.out",
           });
         }
       });
@@ -84,13 +84,13 @@ function Hero() {
           gsap.to(node, {
             opacity: 1,
             duration: 0.7,
-            ease: "power3.inOut",
+            ease: "power3.out",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            ease: "power3.inOut",
+            ease: "power3.out",
           });
         }
       });

@@ -17,7 +17,7 @@ function NavBar() {
   return (
     <nav className="max-w-270 flex justify-between items-center lg:mx-auto md:mx-10 mx-4 my-9.5">
       <div>
-        <Link href="/" className="flex gap-5">
+        <Link href="/" className="flex items-center gap-5">
           <Image alt="Company Logo" src={companyLogo} height={24} width={24} />
           <Typography variant="h6" as="span" weight="semibold">
             {companyName}
