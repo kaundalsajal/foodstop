@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import Typography from "./typography/Typography";
 import { hero } from "@/data/hero-data";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Button from "./ui/Button";
+import { useGSAP } from "@gsap/react";
 
+gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
@@ -33,6 +35,20 @@ function Hero() {
     "/foodImages/bimage4.png",
   ];
 
+  const ellipsesRight = [
+    "/cuisineLabel/EllipseR1.png",
+    "/cuisineLabel/EllipseR2.png",
+    "/cuisineLabel/EllipseR3.png",
+    "/cuisineLabel/EllipseR4.png",
+  ];
+
+  const ellipsesLeft = [
+    "/cuisineLabel/EllipseL1.png",
+    "/cuisineLabel/EllipseL2.png",
+    "/cuisineLabel/EllipseL3.png",
+    "/cuisineLabel/EllipseL4.png",
+  ];
+
   const backgroundColor = ["#F7D297", "#35580F99", "#FC9A63", "#F45E5E"];
 
   const buttonTextColor = ["#F7D297", "#35580F", "#F7D297", "#F45E5E"];
@@ -46,19 +62,71 @@ function Hero() {
     "Italian cuisine",
   ];
 
-  useLayoutEffect(() => {
+  function onClickScroll(direction: "forward" | "backward") {
+    const scrollTop = window.scrollY || window.pageYOffset;
+    console.log(scrollTop);
+    if (direction === "forward") {
+      if (scrollTop >= 0 && scrollTop < 250) {
+        window.scrollTo({
+          top: 250,
+          behavior: "smooth",
+        });
+      } else if (scrollTop >= 250 && scrollTop < 500) {
+        window.scrollTo({
+          top: 749,
+          behavior: "smooth",
+        });
+      } else if (scrollTop >= 500 && scrollTop < 750) {
+        window.scrollTo({
+          top: 1000,
+          behavior: "smooth",
+        });
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    } else if (direction === "backward") {
+      if (scrollTop >= 0 && scrollTop < 250) {
+        window.scrollTo({
+          top: 1000,
+          behavior: "smooth",
+        });
+      } else if (scrollTop >= 250 && scrollTop < 500) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      } else if (scrollTop >= 500 && scrollTop < 750) {
+        window.scrollTo({
+          top: 250,
+          behavior: "smooth",
+        });
+      } else {
+        window.scrollTo({
+          top: 749,
+          behavior: "smooth",
+        });
+      }
+    }
+  }
+
+  useGSAP(() => {
     if (!circleRef.current) return;
-  
+
     const smallImages = gsap.utils.toArray<HTMLElement>(".smallImage");
     const largeImages = gsap.utils.toArray<HTMLElement>(".largeImage");
     const cuisineLabels = gsap.utils.toArray<HTMLElement>(".cuisine-label");
+    const ellipsesR = gsap.utils.toArray<HTMLElement>(".ellipse-right");
+    const ellipsesL = gsap.utils.toArray<HTMLElement>(".ellipse-left");
 
     const radius =
       window.innerWidth >= 560 ? 560 / 2 : (window.innerWidth * 0.8) / 2;
 
     const angles = [20, 55, 90, 125, 160, 195, 240, 275, 310, 345];
 
-    function placesmallImages(step: number) {
+    function playAnimation(step: number) {
       smallImages.forEach((node, index) => {
         const angle = angles[(index + step) % angles.length] * (Math.PI / 180);
         if ((index + step) % angles.length > 4) {
@@ -66,7 +134,7 @@ function Hero() {
             opacity: 0,
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
-            duration: 0.7
+            duration: 0.7,
           });
         } else {
           gsap.to(node, {
@@ -74,7 +142,7 @@ function Hero() {
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
             duration: 0.7,
-            ease: "power3.out",
+            // ease: "power3.out",
           });
         }
       });
@@ -84,13 +152,13 @@ function Hero() {
           gsap.to(node, {
             opacity: 1,
             duration: 0.7,
-            ease: "power3.out",
+            // ease: "power3.out",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            ease: "power3.out",
+            // ease: "power3.out",
           });
         }
       });
@@ -101,13 +169,45 @@ function Hero() {
             opacity: 1,
             background: backgroundColor[step],
             duration: 0.7,
-            ease: "power3.inOut",
+            // ease: "power3.inOut",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            ease: "power3.inOut",
+            // ease: "power3.inOut",
+          });
+        }
+      });
+
+      ellipsesR.forEach((node, index) => {
+        if (index === step) {
+          gsap.to(node, {
+            opacity: 1,
+            duration: 0.7,
+            // ease: "power3.inOut",
+          });
+        } else {
+          gsap.to(node, {
+            opacity: 0,
+            duration: 0.7,
+            // ease: "power3.inOut",
+          });
+        }
+      });
+
+      ellipsesL.forEach((node, index) => {
+        if (index === step) {
+          gsap.to(node, {
+            opacity: 1,
+            duration: 0.7,
+            // ease: "power3.inOut",
+          });
+        } else {
+          gsap.to(node, {
+            opacity: 0,
+            duration: 0.7,
+            // ease: "power3.inOut",
           });
         }
       });
@@ -115,28 +215,28 @@ function Hero() {
       gsap.to(".circle", {
         background: backgroundColor[step],
         duration: 0.7,
-        ease: "power3.inOut",
+        // ease: "power3.inOut",
       });
 
       gsap.to(".order-button", {
         background: backgroundColor[step],
         duration: 0.7,
-        ease: "power3.inOut",
+        // ease: "power3.inOut",
       });
 
       gsap.to(".book-table-button", {
         color: buttonTextColor[step],
         duration: 0.7,
-        ease: "power3.inOut",
+        // ease: "power3.inOut",
       });
 
       gsap.to(".main-heading", {
         color: headingColor[step],
         duration: 0.7,
-        ease: "power3.inOut",
+        // ease: "power3.inOut",
       });
     }
-    placesmallImages(0);
+    playAnimation(0);
 
     let previousStep = 0;
 
@@ -144,9 +244,7 @@ function Hero() {
       trigger: ".panel",
       start: "top top",
       end: "+=2000 bottom",
-      scrub: true,
       pin: true,
-      
 
       onUpdate(self) {
         const totalSteps = 4;
@@ -155,13 +253,12 @@ function Hero() {
 
         if (step !== previousStep) {
           previousStep = step;
-          placesmallImages(step);
+          playAnimation(step);
         }
       },
     });
-
     return () => ScrollTrigger.killAll();
-  }, []);
+  });
   return (
     <section className="max-w-270 h-full flex flex-col lg:flex-row justify-between lg:mx-auto md:mx-10 mx-4 my-9.5">
       <div className="max-w-98.25 mt-5 lg:mt-54.25">
@@ -198,7 +295,7 @@ function Hero() {
       </div>
       {/* Rotating Section  */}
       <div className="relative hidden md:flex flex-col items-center justify-end w-full h-140 ">
-        <div className="circle absolute bottom-[34%] z-[-1] rounded-full aspect-square flex items-center justify-center h-294">
+        <div className="circle absolute bottom-[34%] rounded-full aspect-square flex items-center justify-center h-294">
           <div
             ref={circleRef}
             className="absolute bottom-[-23%] aspect-square w-[80vw] max-w-140 rounded-full border-2 border-dashed border-white rotate-180"
@@ -240,10 +337,30 @@ function Hero() {
               );
             })}
             <div className="relative h-8.75 w-54.5 mx-auto mt-[16%]">
+              <div className="top-0 left-54.5 rotate-180">
+                {ellipsesLeft.map((e, index) => (
+                  <Image
+                    key={index}
+                    alt="ellipse Image"
+                    src={e}
+                    height={43}
+                    width={65}
+                    className="ellipse-left absolute -top-8.5 -left-25.75 z-10"
+                    onClick={() => onClickScroll("backward")}
+                  />
+                ))}
+                <Image
+                  alt="vector image"
+                  src="/cuisineLabel/Vector.png"
+                  height={19}
+                  width={60}
+                  className="absolute -top-4.75 right-52.75 w-14.75 h-2"
+                />
+              </div>
               {cuisines.map((cuisine, index) => (
                 <div
                   key={index}
-                  className="absolute cuisine-label h-8.75 w-54.5 rounded-[50px] flex justify-center items-center opacity-0"
+                  className="absolute cuisine-label h-8.75 w-54.5 rounded-[50px] flex justify-center items-center opacity-0 z-1"
                 >
                   <Typography
                     variant="caption"
@@ -254,6 +371,26 @@ function Hero() {
                   </Typography>
                 </div>
               ))}
+              <div className="top-0 right-54.5 rotate-180">
+                {ellipsesRight.map((e, index) => (
+                  <Image
+                    key={index}
+                    alt="ellipse Image"
+                    src={e}
+                    height={43}
+                    width={65}
+                    className="ellipse-right absolute -top-8.5 -right-25.75 z-10"
+                    onClick={() => onClickScroll("forward")}
+                  />
+                ))}
+                <Image
+                  alt="vector image"
+                  src="/cuisineLabel/Vector.png"
+                  height={19}
+                  width={60}
+                  className="absolute -top-4.75 left-52.75 rotate-180 w-14.75 h-2"
+                />
+              </div>
             </div>
           </div>
         </div>
