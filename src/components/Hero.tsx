@@ -81,7 +81,7 @@ function Hero() {
           top: 1011,
           behavior: "smooth",
         });
-        console.log(window.scrollY)
+        console.log(window.scrollY);
       } else {
         window.scrollTo({
           top: 0,
@@ -122,8 +122,7 @@ function Hero() {
     const ellipsesR = gsap.utils.toArray<HTMLElement>(".ellipse-right");
     const ellipsesL = gsap.utils.toArray<HTMLElement>(".ellipse-left");
 
-    const radius =
-      window.innerWidth >= 560 ? 560 / 2 : (window.innerWidth * 0.8) / 2;
+    const radius = circleRef.current.offsetWidth / 2;
 
     const angles = [20, 55, 90, 125, 160, 195, 240, 275, 310, 345];
 
@@ -156,7 +155,7 @@ function Hero() {
       //     });
       //   }
       // });
-      console.log(window.scrollY ,"this is scroll position with mouse")
+      console.log(window.scrollY, "this is scroll position with mouse");
 
       largeImages.forEach((node, index) => {
         if (index === step) {
@@ -224,13 +223,12 @@ function Hero() {
           });
         }
       });
-      
-        gsap.to(".image-circle", {
-          rotate: 180 + step * 35,
-          duration: 0.7,
-          // ease: "power3.inOut",
-        });
-      
+
+      gsap.to(circleRef.current, {
+        rotate: 180 + step * 35,
+        duration: 0.7,
+        // ease: "power3.inOut",
+      });
 
       gsap.to(".circle", {
         background: backgroundColor[step],
@@ -265,8 +263,7 @@ function Hero() {
       start: "top top",
       end: "+=2000 bottom",
       pin: true,
-      pinType: "fixed",
-      markers:true,
+      markers: true,
 
       onUpdate(self) {
         const totalSteps = 4;
@@ -282,7 +279,7 @@ function Hero() {
     return () => ScrollTrigger.killAll();
   });
   return (
-    <section className=" max-w-275 md:px-5 h-full flex flex-col lg:flex-row justify-between lg:mx-auto md:mx-10 mx-4 lg:my-9.5">
+    <section className=" max-w-275 md:px-5 h-full flex flex-col-reverse lg:flex-row justify-between lg:mx-auto md:mx-10 mx-4 lg:my-9.5">
       <div className="max-w-full lg:max-w-98.25 mt-1 md:mt-5 lg:mt-54.25">
         <Typography variant="h2" weight="semibold" className="main-heading">
           {hero.heading1}
@@ -316,18 +313,29 @@ function Hero() {
         </div>
       </div>
       {/* Rotating Section  */}
-      <div className="relative flex flex-col lg:overflow-visible overflow-hidden items-center justify-end w-full h-140">
-        <div className="circle absolute bottom-[40%] rounded-full aspect-square hidden lg:flex items-center justify-center w-screen max-w-294 overflow-hidden">
+      <div className="relative flex flex-col items-center w-full h-[30vh] lg:h-[80vh]">
+        <div className="circle absolute w-[200%] bottom-1/3 lg:bottom-1/2 rounded-full aspect-square overflow-hidden">
           <div
             ref={circleRef}
-            className="image-circle absolute bottom-[-23%] aspect-square w-[80vw] max-w-140 rounded-full border-2 border-dashed border-white rotate-180"
+            className="absolute
+              left-1/2
+              top-full
+              -translate-x-1/2
+              -translate-y-1/2
+              aspect-square
+              w-1/3
+              rounded-full
+              border-2
+              border-dashed
+              border-white
+              rotate-180"
           >
             {smallImages.map((img, index) => (
               <div
                 key={index}
-                className="smallImage absolute left-1/2 top-1/2 "
+                className="smallImage absolute w-[20%] max-w-20 left-1/2 top-1/2 "
               >
-                <div className="w-[10vw] max-w-20  overflow-hidden rounded-full -translate-x-1/2 -translate-y-1/2">
+                <div className="w-full max-w-20 overflow-hidden rounded-full -translate-x-1/2 -translate-y-1/2">
                   <Image
                     src={img}
                     alt=""
@@ -345,7 +353,7 @@ function Hero() {
           return (
             <div
               key={index}
-              className="largeImage w-[30vw] max-w-54.5 absolute left-1/2 top-[11%] md:top-[20%] lg:top-[60%] overflow-hidden rounded-full -translate-x-1/2 -translate-y-1/2"
+              className="largeImage w-[30%] max-w-54.5 absolute bottom-1/3 lg:bottom-1/2 overflow-hidden rounded-full translate-y-1/2"
             >
               <Image
                 src={img}
@@ -358,8 +366,8 @@ function Hero() {
             </div>
           );
         })}
-        <div className="relative bottom-[65%] md:bottom-[40%] right-[25%] sm:right-0 lg:bottom-[10%] h-8.75 w-20 md:w-54.5 mx-auto">
-          <div className="top-0 left-54.5">
+        {/* <div className="md:relative bottom-[65%] md:bottom-[40%] right-[25%] sm:right-0 lg:bottom-[10%] h-8.75 w-20 md:w-54.5 mx-auto">
+          <div className="md:block hidden top-0 left-54.5">
             {ellipsesLeft.map((e, index) => (
               <Image
                 key={index}
@@ -389,7 +397,7 @@ function Hero() {
               </Typography>
             </div>
           ))}
-          <div className="top-0 right-54.5">
+          <div className="md:block hidden top-0 right-54.5">
             {ellipsesRight.map((e, index) => (
               <Image
                 key={index}
@@ -409,7 +417,7 @@ function Hero() {
               className="absolute top-3.25 left-52.75 w-14.75 h-2 rotate-180"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

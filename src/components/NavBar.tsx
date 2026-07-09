@@ -28,7 +28,7 @@ function NavBar() {
   };
 
   return (
-    <nav className="flex max-w-275 md:px-5 justify-between items-center lg:mx-auto md:mx-10 mx-4 md:my-9.5 my-3 relative z-1">
+    <nav className="flex max-w-275 md:px-5 justify-between items-center lg:mx-auto md:mx-10 mx-4 md:py-9.5 py-3 relative z-1">
       <div>
         <Link href="/" className="flex items-center gap-5">
           <Image alt="Company Logo" src={companyLogo} height={24} width={24} />
