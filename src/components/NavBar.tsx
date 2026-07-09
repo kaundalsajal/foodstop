@@ -1,3 +1,6 @@
+"use client"
+
+
 import {
   cartIcon,
   companyLogo,
@@ -10,12 +13,22 @@ import {
 } from "@/data/navlinks-data";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { IoMenu } from "react-icons/io5";
 import Typography from "./typography/Typography";
+import { useState } from "react";
+import clsx from "clsx";
+
+
 
 function NavBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toogleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
-    <nav className="max-w-270 flex justify-between items-center lg:mx-auto md:mx-10 mx-4 my-9.5 relative z-1">
+    <nav className="flex max-w-275 md:px-5 justify-between items-center lg:mx-auto md:mx-10 mx-4 md:my-9.5 my-3 relative z-1">
       <div>
         <Link href="/" className="flex items-center gap-5">
           <Image alt="Company Logo" src={companyLogo} height={24} width={24} />
@@ -31,7 +44,7 @@ function NavBar() {
         </Link>
       ))}
 
-      <div className="gap-2 md:flex hidden">
+      <div className="gap-2 lg:flex hidden">
         <div className="bg-white flex justify-center items-center aspect-square w-8.75 rounded-[11px] border border-[#33333340]">
           <Image
             alt="location icon"
@@ -55,13 +68,30 @@ function NavBar() {
           />
         </div>
       </div>
-      <div className=" gap-5 md:flex hidden">
+      <div className=" gap-5 flex items-center">
         <Link href="/cart">
           <Image alt="cart" src={cartIcon} height={18} width={18} />
         </Link>
         <Link href="/cart">
           <Image alt="cart" src={lockIcon} height={18} width={18} />
         </Link>
+        <IoMenu
+          className="md:hidden flex justify-center items-center aspect-square w-8.75 rounded-[11px]"
+          size={24}
+          onClick={toogleMenu}
+        />
+        <div className={clsx(isMenuOpen ? "block" : "hidden", "absolute top-10 pb-3 -left-4 flex flex-col w-screen bg-gray-100")}>
+          {navLinks.map((link, index) => (
+            <Link
+              key={index}
+              href={link.href}
+              onClick={toogleMenu}
+              className="pt-3 flex items-center justify-center"
+            >
+              <Typography variant="body-sm" weight="semibold">{link.text}</Typography>
+            </Link>
+          ))}
+        </div>
       </div>
     </nav>
   );

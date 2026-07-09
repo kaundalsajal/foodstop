@@ -4,9 +4,9 @@ import React from "react";
 
 function Page() {
   return (
-    <main className="panel h-[2000px]">
-      <NavBar/>
-      <Hero/>
+    <main className="panel sticky top-0 ">
+      <NavBar />
+      <Hero />
       {/* <div className="h-25 w-25 bg-background"></div>
       <div className="h-25 w-25 bg-background-muted"></div>
       <div className="h-25 w-25 bg-background-secondary"></div>
