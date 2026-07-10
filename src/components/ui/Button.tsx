@@ -16,7 +16,7 @@ const variantStyles: Record<Variant, string> = {
 
 function Button({ children, variant, color="", className="" }: ButtonProps) {
   return (
-    <button className={clsx(variantStyles[variant], "h-10.25",className)}>
+    <button className={clsx(variantStyles[variant], "h-10.25",className ,"cursor-pointer")}>
       {children}
     </button>
   );
