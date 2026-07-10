@@ -63,20 +63,20 @@ function Hero() {
   ];
 
   function onClickScroll(direction: "forward" | "backward") {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    console.log(scrollTop);
+    const scrollPosition = window.scrollY || window.pageYOffset;
+
     if (direction === "forward") {
-      if (scrollTop >= 0 && scrollTop < 250) {
+      if (scrollPosition >= 0 && scrollPosition < 250) {
         window.scrollTo({
           top: 250,
           behavior: "smooth",
         });
-      } else if (scrollTop >= 250 && scrollTop < 500) {
+      } else if (scrollPosition >= 250 && scrollPosition < 500) {
         window.scrollTo({
           top: 749,
           behavior: "smooth",
         });
-      } else if (scrollTop >= 500 && scrollTop < 750) {
+      } else if (scrollPosition >= 500 && scrollPosition < 750) {
         window.scrollTo({
           top: 1011,
           behavior: "smooth",
@@ -89,17 +89,17 @@ function Hero() {
         });
       }
     } else if (direction === "backward") {
-      if (scrollTop >= 0 && scrollTop < 250) {
+      if (scrollPosition >= 0 && scrollPosition < 250) {
         window.scrollTo({
           top: 1011,
           behavior: "smooth",
         });
-      } else if (scrollTop >= 250 && scrollTop < 500) {
+      } else if (scrollPosition >= 250 && scrollPosition < 500) {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
-      } else if (scrollTop >= 500 && scrollTop < 750) {
+      } else if (scrollPosition >= 500 && scrollPosition < 750) {
         window.scrollTo({
           top: 250,
           behavior: "smooth",
@@ -136,41 +136,18 @@ function Hero() {
     });
 
     function playAnimation(step: number) {
-      // smallImages.forEach((node, index) => {
-      //   const angle = angles[(index + step) % angles.length] * (Math.PI / 180);
-      //   if ((index + step) % angles.length > 4) {
-      //     gsap.to(node, {
-      //       opacity: 0,
-      //       x: Math.cos(angle) * radius,
-      //       y: Math.sin(angle) * radius,
-      //       duration: 0.7,
-      //     });
-      //   } else {
-      //     gsap.to(node, {
-      //       opacity: 1,
-      //       x: Math.cos(angle) * radius,
-      //       y: Math.sin(angle) * radius,
-      //       duration: 0.7,
-      //       // ease: "power3.out",
-      //     });
-      //   }
-      // });
-      console.log(window.scrollY, "this is scroll position with mouse");
-
       largeImages.forEach((node, index) => {
         if (index === step) {
           gsap.to(node, {
             opacity: 1,
             scale: 1,
             duration: 0.7,
-            // ease: "power3.out",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             scale: 0.1,
             duration: 0.7,
-            // ease: "power3.out",
           });
         }
       });
@@ -181,13 +158,11 @@ function Hero() {
             opacity: 1,
             background: backgroundColor[step],
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         }
       });
@@ -197,13 +172,11 @@ function Hero() {
           gsap.to(node, {
             opacity: 1,
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         }
       });
@@ -213,13 +186,11 @@ function Hero() {
           gsap.to(node, {
             opacity: 1,
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         } else {
           gsap.to(node, {
             opacity: 0,
             duration: 0.7,
-            // ease: "power3.inOut",
           });
         }
       });
@@ -227,31 +198,26 @@ function Hero() {
       gsap.to(circleRef.current, {
         rotate: 180 + step * 35,
         duration: 0.7,
-        // ease: "power3.inOut",
       });
 
       gsap.to(".circle", {
         background: backgroundColor[step],
         duration: 0.7,
-        // ease: "power3.inOut",
       });
 
       gsap.to(".order-button", {
         background: backgroundColor[step],
         duration: 0.7,
-        // ease: "power3.inOut",
       });
 
       gsap.to(".book-table-button", {
         color: buttonTextColor[step],
         duration: 0.7,
-        // ease: "power3.inOut",
       });
 
       gsap.to(".main-heading", {
         color: headingColor[step],
         duration: 0.7,
-        // ease: "power3.inOut",
       });
     }
     playAnimation(0);
@@ -263,7 +229,6 @@ function Hero() {
       start: "top top",
       end: "+=2000 bottom",
       pin: true,
-      markers: true,
 
       onUpdate(self) {
         const totalSteps = 4;
@@ -279,8 +244,9 @@ function Hero() {
     return () => ScrollTrigger.killAll();
   });
   return (
-    <section className=" max-w-275 md:px-5 h-full flex flex-col-reverse lg:flex-row justify-between lg:mx-auto md:mx-10 mx-4 lg:my-9.5">
-      <div className="max-w-full lg:max-w-98.25 mt-1 md:mt-5 lg:mt-54.25">
+    <section className=" max-w-275 md:px-5 flex flex-col-reverse lg:flex-row justify-between lg:mx-auto md:mx-10 mx-4 lg:py-9.5">
+      {/* Text Section  */}
+      <div className="max-w-full lg:max-w-110 mt-5 lg:mt-54.25">
         <Typography variant="h2" weight="semibold" className="main-heading">
           {hero.heading1}
         </Typography>
@@ -312,9 +278,11 @@ function Hero() {
           </Button>
         </div>
       </div>
+
       {/* Rotating Section  */}
-      <div className="relative flex flex-col items-center w-full h-[30vh] lg:h-[80vh]">
-        <div className="circle absolute w-[200%] bottom-1/3 lg:bottom-1/2 rounded-full aspect-square overflow-hidden">
+      <div className="relative flex flex-col items-center justify-end w-full h-[30vh] sm:h-[40vh] lg:h-[80vh] lg:max-h-220 ">
+        <div className="circle absolute w-[200%] sm:w-[150%] lg:w-[180%] bottom-1/2 rounded-full aspect-square overflow-hidden">
+          {/* Circle with the images on the edge */}
           <div
             ref={circleRef}
             className="absolute
@@ -324,6 +292,7 @@ function Hero() {
               -translate-y-1/2
               aspect-square
               w-1/3
+              lg:w-1/2
               rounded-full
               border-2
               border-dashed
@@ -349,11 +318,13 @@ function Hero() {
             ))}
           </div>
         </div>
+
+        {/* Large image in the edge of the circle */}
         {largeImages.map((img, index) => {
           return (
             <div
               key={index}
-              className="largeImage w-[30%] max-w-54.5 absolute bottom-1/3 lg:bottom-1/2 overflow-hidden rounded-full translate-y-1/2"
+              className="largeImage w-[30%] max-w-40 lg:max-w-54.5 absolute bottom-1/2 overflow-hidden rounded-full translate-y-1/2"
             >
               <Image
                 src={img}
@@ -366,8 +337,11 @@ function Hero() {
             </div>
           );
         })}
-        {/* <div className="md:relative bottom-[65%] md:bottom-[40%] right-[25%] sm:right-0 lg:bottom-[10%] h-8.75 w-20 md:w-54.5 mx-auto">
-          <div className="md:block hidden top-0 left-54.5">
+
+        {/* Bottom cuisine label */}
+        <div className="relative lg:bottom-50 flex h-8.75 w-[65%] min-w-75 max-w-100 mx-auto">
+          {/* Left Side Toogle button */}
+          <div className="relative h-8.75 w-[25%]">
             {ellipsesLeft.map((e, index) => (
               <Image
                 key={index}
@@ -375,29 +349,36 @@ function Hero() {
                 src={e}
                 height={43}
                 width={65}
-                className="ellipse-left absolute -left-25.75 z-10"
+                className="ellipse-left top-[60%] -translate-y-1/2 w-[60%] absolute z-10 cursor-pointer"
                 onClick={() => onClickScroll("backward")}
               />
             ))}
-            <Image
-              alt="vector image"
-              src="/cuisineLabel/Vector.png"
-              height={19}
-              width={60}
-              className="absolute top-3.25 right-52.75 w-14.75 h-2"
-            />
-          </div>
-          {cuisines.map((cuisine, index) => (
-            <div
-              key={index}
-              className="absolute cuisine-label h-8.75 w-54.5 rounded-[50px] flex justify-center items-center opacity-0 "
-            >
-              <Typography variant="caption" weight="medium" className="">
-                {cuisine}
-              </Typography>
+            <div className="absolute top-1/2 -translate-y-1/2 left-[50%] w-[60%] h-auto">
+              <Image
+                alt="vector image"
+                src="/cuisineLabel/Vector.png"
+                height={19}
+                width={60}
+              />
             </div>
-          ))}
-          <div className="md:block hidden top-0 right-54.5">
+          </div>
+
+          {/* Center Label */}
+          <div className="relative h-8.75 w-[50%] max-w-54.5 z-10">
+            {cuisines.map((cuisine, index) => (
+              <div
+                key={index}
+                className="absolute cuisine-label h-8.75 w-full rounded-[50px] flex justify-center items-center opacity-0 "
+              >
+                <Typography variant="caption" weight="medium" className="">
+                  {cuisine}
+                </Typography>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Side Toogle button */}
+          <div className="relative h-8.75 w-[25%]">
             {ellipsesRight.map((e, index) => (
               <Image
                 key={index}
@@ -405,19 +386,20 @@ function Hero() {
                 src={e}
                 height={43}
                 width={65}
-                className="ellipse-right absolute -right-25.75 z-10"
+                className="ellipse-right absolute top-[60%] -translate-y-1/2 right-0 w-[60%] z-10 cursor-pointer"
                 onClick={() => onClickScroll("forward")}
               />
             ))}
-            <Image
-              alt="vector image"
-              src="/cuisineLabel/Vector.png"
-              height={19}
-              width={60}
-              className="absolute top-3.25 left-52.75 w-14.75 h-2 rotate-180"
-            />
+            <div className="absolute top-1/2 -translate-y-1/2 -left-1 w-[60%] h-auto rotate-180">
+              <Image
+                alt="vector image"
+                src="/cuisineLabel/Vector.png"
+                height={19}
+                width={60}
+              />
+            </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </section>
   );

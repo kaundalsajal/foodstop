@@ -55,7 +55,7 @@ function NavBar() {
         </div>
         <div className="relative">
           <Image
-            alt="location icon"
+            alt="search icon"
             src={searchIcon}
             className="absolute top-0 left-2.5 translate-y-1/2"
             height={18}
@@ -63,7 +63,7 @@ function NavBar() {
           />
           <input
             type="text"
-            className="bg-white h-8.75 lg:w-79.25 w-50 rounded-[11px] font-poppins font-thin text-[12px] px-9.5 border border-[#33333340]"
+            className="bg-white h-8.75 lg:w-79.25 w-50 rounded-[11px] font-poppins font-thin text-[12px] px-9.5 border border-[#33333340] caret-gray-500 outline-[#33333340]"
             placeholder={searchBarPlaceHolder}
           />
         </div>
@@ -80,7 +80,12 @@ function NavBar() {
           size={24}
           onClick={toogleMenu}
         />
-        <div className={clsx(isMenuOpen ? "block" : "hidden", "absolute top-10 pb-3 -left-4 flex flex-col w-screen bg-gray-100")}>
+        <div
+          className={clsx(
+            isMenuOpen ? "block" : "hidden",
+            "absolute top-10 pb-3 -left-4 flex flex-col w-screen bg-gray-100",
+          )}
+        >
           {navLinks.map((link, index) => (
             <Link
               key={index}
@@ -88,7 +93,9 @@ function NavBar() {
               onClick={toogleMenu}
               className="pt-3 flex items-center justify-center"
             >
-              <Typography variant="body-sm" weight="semibold">{link.text}</Typography>
+              <Typography variant="body-sm" weight="semibold">
+                {link.text}
+              </Typography>
             </Link>
           ))}
         </div>
